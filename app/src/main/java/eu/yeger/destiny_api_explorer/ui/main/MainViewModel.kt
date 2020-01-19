@@ -1,54 +1,47 @@
 package eu.yeger.destiny_api_explorer.ui.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import eu.yeger.destiny_api_explorer.network.ItemDefinition
-import eu.yeger.destiny_api_explorer.network.NetworkService
+import android.app.Application
+import androidx.lifecycle.*
+import eu.yeger.destiny_api_explorer.database.getDatabase
+import eu.yeger.destiny_api_explorer.repository.ItemDefinitionRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
-class MainViewModel : ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+    private val database = getDatabase(application)
+    private val repository = ItemDefinitionRepository(database)
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String>
         get() = _error
 
-    val currentQuery = MutableLiveData<String>()
+    val itemDefinitions = repository.xurItems
 
-    private val _itemDefinition = MutableLiveData<ItemDefinition>()
-    val itemDefinition: LiveData<ItemDefinition>
-        get() = _itemDefinition
-
-    fun runCurrentQuery() {
+    init {
         viewModelScope.launch {
-            try {
-                _itemDefinition.value = null
-                _error.value = null
-                Timber.i("Requesting: ${currentQuery.value}")
-                _itemDefinition.value = NetworkService.bungieApi.getItemDefinition(currentQuery.value!!).itemDefinition
-                Timber.i(itemDefinition.value.toString())
-            } catch (exception: Exception) {
-                _itemDefinition.value = null
-                _error.value = exception.localizedMessage
-            }
-        }
-    }
-
-    fun getXur() {
-        viewModelScope.launch {
-            _itemDefinition.value = NetworkService.bungieApi.getXur().itemDefinition
+            repository.refreshXurItems()
         }
     }
 
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    class Factory(val application: Application) : ViewModelProvider.Factory {
+
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return MainViewModel(application) as T
+            }
+            throw IllegalArgumentException("Unable to construct viewmodel")
+        }
     }
 }

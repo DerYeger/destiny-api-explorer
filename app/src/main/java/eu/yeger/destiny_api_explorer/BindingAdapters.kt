@@ -3,8 +3,11 @@ package eu.yeger.destiny_api_explorer
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import eu.yeger.destiny_api_explorer.domain.ItemDefinition
 import eu.yeger.destiny_api_explorer.network.BUNGIE_BASE_URL
+import eu.yeger.destiny_api_explorer.ui.main.ItemGridAdapter
 
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imageUrl: String?) {
@@ -18,3 +21,10 @@ fun bindImage(imgView: ImageView, imageUrl: String?) {
 
 @BindingAdapter("bungieImageUrl")
 fun bindBungieImage(imageView: ImageView, imageUrl: String?) = bindImage(imageView, BUNGIE_BASE_URL + imageUrl)
+
+@BindingAdapter("itemList")
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<ItemDefinition>?) {
+    val adapter = recyclerView.adapter as ItemGridAdapter
+    adapter.submitList(data)
+}
+

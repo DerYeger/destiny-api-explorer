@@ -23,14 +23,17 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = MainFragmentBinding.inflate(inflater)
-        binding.lifecycleOwner = this
+        binding = MainFragmentBinding.inflate(inflater).apply {
+            lifecycleOwner = this@MainFragment
+            itemGrid.adapter = ItemGridAdapter()
+        }
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        val factory = MainViewModel.Factory(application = activity!!.application)
+        viewModel = ViewModelProviders.of(this, factory).get(MainViewModel::class.java)
         binding.viewModel = viewModel
     }
 }

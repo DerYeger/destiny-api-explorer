@@ -18,47 +18,22 @@
         android:layout_height="match_parent"
         tools:context=".ui.main.MainFragment">
 
-        <TextView
-            android:id="@+id/query_result_text"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/item_grid"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:text="@{viewModel.itemDefinition.displayProperties.name}"
-            android:textAlignment="center"
+            android:clipToPadding="false"
+            app:itemList="@{viewModel.itemDefinitions}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/error_text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_icon_image" />
-
-        <Button
-            android:id="@+id/submit_query_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:enabled="@{viewModel.currentQuery.length() > 0}"
-            android:onClick="@{() -> viewModel.runCurrentQuery()}"
-            android:text="@string/submit_string"
-            app:layout_constraintBaseline_toBaselineOf="@+id/query_edit"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <EditText
-            android:id="@+id/query_edit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:ems="10"
-            android:hint="@string/query_hint"
-            android:inputType="textPersonName"
-            android:text="@={viewModel.currentQuery}"
-            app:layout_constraintEnd_toStartOf="@+id/submit_query_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:spanCount="2" />
 
         <TextView
             android:id="@+id/error_text"
@@ -73,20 +48,5 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
-            android:id="@+id/item_icon_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:visibility="@{viewModel.itemDefinition != null ? View.VISIBLE : View.INVISIBLE}"
-            app:bungieImageUrl="@{viewModel.itemDefinition.displayProperties.iconUrl}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/query_edit"
-            tools:srcCompat="@tools:sample/avatars" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

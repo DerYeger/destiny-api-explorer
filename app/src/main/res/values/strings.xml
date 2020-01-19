@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">destiny_api_explorer</string>
-    <string name="submit_string">Submit</string>
+    <string name="app_name">Destiny Api Explorer</string>
+    <string name="refresh">Refresh</string>
     <string name="query_hint">Query</string>
 </resources>

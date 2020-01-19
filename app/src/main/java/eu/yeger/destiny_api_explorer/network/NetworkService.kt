@@ -7,11 +7,12 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 const val BUNGIE_BASE_URL = "https://www.bungie.net/"
 
 const val BUNGIE_API_URL = "${BUNGIE_BASE_URL}platform/"
+
+private const val API_KEY_HEADER = "X-API-Key: 52b973d5b38d4557a2f3ac1b099e9f0b"
 
 val moshi: Moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
@@ -19,14 +20,13 @@ val moshi: Moshi = Moshi.Builder()
 
 interface BungieApi {
 
-    @Headers("X-API-Key: 52b973d5b38d4557a2f3ac1b099e9f0b")
+    @Headers(API_KEY_HEADER)
     @GET("Destiny2/Manifest/DestinyInventoryItemDefinition/{id}")
-    suspend fun getItemDefinition(@Path("id") id: String): NetworkItemDefinition
+    suspend fun getItemDefinition(@Path("id") hash: Long): NetworkItemDefinition
 
-    @Headers("X-API-Key: 52b973d5b38d4557a2f3ac1b099e9f0b")
-//    @GET("Destiny2/Vendors/?components=402")
-    @GET("Destiny2/Manifest/DestinyInventoryItemDefinition/3899270607")
-    suspend fun getXur(): NetworkItemDefinition
+    @Headers(API_KEY_HEADER)
+    @GET("Destiny2/Vendors/?components=402")
+    suspend fun getXur(): NetworkVendors
 }
 
 object NetworkService {
