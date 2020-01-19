@@ -1,11 +1,9 @@
 package eu.yeger.destiny_api_explorer.ui.main
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import eu.yeger.destiny_api_explorer.R
 import eu.yeger.destiny_api_explorer.databinding.MainFragmentBinding
 
@@ -27,6 +25,7 @@ class MainFragment : Fragment() {
             lifecycleOwner = this@MainFragment
             itemGrid.adapter = ItemGridAdapter()
         }
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -35,5 +34,18 @@ class MainFragment : Fragment() {
         val factory = MainViewModel.Factory(application = activity!!.application)
         viewModel = ViewModelProviders.of(this, factory).get(MainViewModel::class.java)
         binding.viewModel = viewModel
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.item_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.refresh_data_menu -> viewModel.refresh()
+            R.id.clear_data_menu -> viewModel.clear()
+        }
+        return true
     }
 }

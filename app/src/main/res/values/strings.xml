@@ -2,4 +2,6 @@
     <string name="app_name">Destiny Api Explorer</string>
     <string name="refresh">Refresh</string>
     <string name="query_hint">Query</string>
+    <string name="refresh_data">Refresh</string>
+    <string name="clear_data">Clear Data</string>
 </resources>

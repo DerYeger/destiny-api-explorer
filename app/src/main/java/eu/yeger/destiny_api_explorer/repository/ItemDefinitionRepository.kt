@@ -13,28 +13,59 @@ import timber.log.Timber
 
 class ItemDefinitionRepository(private val database: ItemDefinitionDatabase) {
 
-    val xurItems: LiveData<List<ItemDefinition>> =
+    val items: LiveData<List<ItemDefinition>> =
         Transformations.map(database.itemDefinitionDao.getItemDefinitions()) {
             it.asDomainModel()
         }
 
-    suspend fun refreshXurItems() {
+    val xurItems: LiveData<List<ItemDefinition>> =
+        Transformations.map(database.itemDefinitionDao.getItemDefinitions()) {
+            it.filter { item -> item.soldByXur }.asDomainModel()
+        }
+
+    suspend fun clear() {
         withContext(Dispatchers.IO) {
-            val xur = NetworkService.bungieApi.getXur()
-            xur.response.sales.data.values.forEach { vendor ->
-                vendor.saleItems.values.forEach { saleItem ->
-                    getItem(saleItem.itemHash)
-                }
-            }
+            database.itemDefinitionDao.deleteItemDefinitions()
         }
     }
 
-    private suspend fun getItem(hash: Long): ItemDefinition? {
+    suspend fun refreshXurItems() {
+        withContext(Dispatchers.IO) {
+            // Get current Xur data
+            val xur = NetworkService.bungieApi.getXur()
+
+            // Map Xur data to sale items
+            val saleItems =
+                xur.response.sales.data.values.flatMap { vendor -> vendor.saleItems.values }
+
+            // Map sale items to ItemDefinitions by retrieving or fetching them
+            val xurItemDefinitions = saleItems.mapNotNull { saleItem ->
+                getItem(
+                    hash = saleItem.itemHash,
+                    soldByXur = true
+                )
+            }
+
+            // Mark items no longer sold by Xur as such
+            val previousItems = xurItems.value!!
+                .filter { it !in xurItemDefinitions }
+                .asDatabaseModel(soldByXur = false)
+            database.itemDefinitionDao.updateAll(*previousItems)
+
+            // Mark items in the inventory of Xur as such
+            database.itemDefinitionDao.updateAll(*xurItemDefinitions.asDatabaseModel(soldByXur = true))
+        }
+    }
+
+    private suspend fun getItem(hash: Long, soldByXur: Boolean = false): ItemDefinition? {
         try {
+            // Check if the item definition exists in the local database
             return when (val itemDefinition = database.itemDefinitionDao.getItemDefinition(hash)) {
+                // Fetch and save the item definition if it is not present
                 null -> NetworkService.bungieApi.getItemDefinition(hash).itemDefinition.also {
-                    database.itemDefinitionDao.insertAll(it.asDatabaseModel())
+                    database.itemDefinitionDao.insertAll(it.asDatabaseModel(soldByXur = soldByXur))
                 }
+                // Retrieve the item definition if it is present
                 else -> itemDefinition.asDomainModel()
             }
         } catch (exception: Exception) {
@@ -58,10 +89,15 @@ private fun DatabaseItemDefinition.asDomainModel(): ItemDefinition = ItemDefinit
     )
 )
 
-private fun ItemDefinition.asDatabaseModel(): DatabaseItemDefinition = DatabaseItemDefinition(
-    hash = this.hash,
-    name = this.displayProperties.name,
-    description = this.displayProperties.description,
-    iconUrl = this.displayProperties.iconUrl,
-    hasIcon = this.displayProperties.hasIcon
-)
+private fun List<ItemDefinition>.asDatabaseModel(soldByXur: Boolean): Array<DatabaseItemDefinition> =
+    map { it.asDatabaseModel(soldByXur = soldByXur) }.toTypedArray()
+
+private fun ItemDefinition.asDatabaseModel(soldByXur: Boolean): DatabaseItemDefinition =
+    DatabaseItemDefinition(
+        hash = this.hash,
+        name = this.displayProperties.name,
+        description = this.displayProperties.description,
+        iconUrl = this.displayProperties.iconUrl,
+        hasIcon = this.displayProperties.hasIcon,
+        soldByXur = soldByXur
+    )

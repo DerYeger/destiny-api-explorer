@@ -24,14 +24,24 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val itemDefinitions = repository.xurItems
 
     init {
-        viewModelScope.launch {
-            repository.refreshXurItems()
-        }
+        refresh()
     }
 
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    fun refresh() {
+        viewModelScope.launch {
+            repository.refreshXurItems()
+        }
+    }
+
+    fun clear() {
+        viewModelScope.launch {
+            repository.clear()
+        }
     }
 
     class Factory(val application: Application) : ViewModelProvider.Factory {

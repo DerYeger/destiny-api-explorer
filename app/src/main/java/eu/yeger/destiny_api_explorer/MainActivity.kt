@@ -1,7 +1,7 @@
 package eu.yeger.destiny_api_explorer
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import eu.yeger.destiny_api_explorer.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {

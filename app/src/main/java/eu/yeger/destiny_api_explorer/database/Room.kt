@@ -1,24 +1,9 @@
 package eu.yeger.destiny_api_explorer.database
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.room.*
-
-@Dao
-interface ItemDefinitionDao {
-
-    @Query("SELECT * FROM databaseitemdefinition")
-    fun getItemDefinitions(): LiveData<List<DatabaseItemDefinition>>
-
-    @Query("SELECT * FROM databaseitemdefinition WHERE hash = :hash")
-    fun getItemDefinition(hash: Long): DatabaseItemDefinition?
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg itemDefinitions: DatabaseItemDefinition)
-
-    @Delete
-    fun deleteItemDefinition(hash: Long)
-}
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 
 @Database(entities = [DatabaseItemDefinition::class], version = 1)
 abstract class ItemDefinitionDatabase : RoomDatabase() {

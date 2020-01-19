@@ -20,7 +20,8 @@ fun bindImage(imgView: ImageView, imageUrl: String?) {
 }
 
 @BindingAdapter("bungieImageUrl")
-fun bindBungieImage(imageView: ImageView, imageUrl: String?) = bindImage(imageView, BUNGIE_BASE_URL + imageUrl)
+fun bindBungieImage(imageView: ImageView, imageUrl: String?) =
+    bindImage(imageView, BUNGIE_BASE_URL + imageUrl)
 
 @BindingAdapter("itemList")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<ItemDefinition>?) {
