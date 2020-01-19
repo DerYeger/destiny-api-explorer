@@ -6,6 +6,7 @@
     <data>
 
         <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="eu.yeger.destiny_api_explorer.ui.main.MainViewModel" />
@@ -25,19 +26,21 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:text="@{viewModel.queryResult}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@{viewModel.itemDefinition.displayProperties.name}"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@+id/error_text"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/query_edit" />
+            app:layout_constraintTop_toBottomOf="@+id/item_icon_image" />
 
         <Button
             android:id="@+id/submit_query_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:onClick="@{() -> viewModel.runCurrentQuery()}"
             android:enabled="@{viewModel.currentQuery.length() > 0}"
+            android:onClick="@{() -> viewModel.runCurrentQuery()}"
             android:text="@string/submit_string"
             app:layout_constraintBaseline_toBaselineOf="@+id/query_edit"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -57,19 +60,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/error_text"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="16dp" />
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@{viewModel.error}"
+            android:textAlignment="center"
+            android:visibility="@{viewModel.error != null ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="16dp" />
+        <ImageView
+            android:id="@+id/item_icon_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="@{viewModel.itemDefinition != null ? View.VISIBLE : View.INVISIBLE}"
+            app:bungieImageUrl="@{viewModel.itemDefinition.displayProperties.iconUrl}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/query_edit"
+            tools:srcCompat="@tools:sample/avatars" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
