@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
     app:startDestination="@id/xurFragment">
 
     <fragment
         android:id="@+id/xurFragment"
         android:name="eu.yeger.destiny_api_explorer.ui.xur.XurFragment"
-        android:label="XurFragment" />
+        android:label="XurFragment" >
+        <action
+            android:id="@+id/action_xurFragment_to_itemDetailFragment"
+            app:destination="@id/itemDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemDetailFragment"
+        android:name="eu.yeger.destiny_api_explorer.ui.item_detail.ItemDetailFragment"
+        android:label="ItemDetailFragment" >
+        <action
+            android:id="@+id/action_itemDetailFragment_to_xurFragment"
+            app:destination="@id/xurFragment" />
+        <argument
+            android:name="itemDefinition"
+            app:argType="eu.yeger.destiny_api_explorer.domain.ItemDefinition" />
+    </fragment>
 </navigation>

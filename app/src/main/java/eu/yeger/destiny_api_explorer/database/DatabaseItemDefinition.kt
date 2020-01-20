@@ -10,8 +10,9 @@ data class DatabaseItemDefinition(
     val name: String,
     val description: String,
     val iconUrl: String,
-    val hasIcon: Boolean,
-    val soldByXur: Boolean
+    val soldByXur: Boolean,
+    val type: String,
+    val screenshotUrl: String?
 )
 
 @Dao

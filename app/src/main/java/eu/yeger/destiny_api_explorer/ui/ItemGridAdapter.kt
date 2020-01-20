@@ -8,13 +8,20 @@ import androidx.recyclerview.widget.RecyclerView
 import eu.yeger.destiny_api_explorer.databinding.ItemDefinitionViewBinding
 import eu.yeger.destiny_api_explorer.domain.ItemDefinition
 
-class ItemGridAdapter :
+class ItemGridAdapter(private val onClickListener: OnClickListener<ItemDefinition>) :
     ListAdapter<ItemDefinition, ItemGridAdapter.ItemViewHolder>(DiffCallback) {
 
-    class ItemViewHolder(private val binding: ItemDefinitionViewBinding) :
+    class ItemViewHolder(
+        private val binding: ItemDefinitionViewBinding,
+        private val onClickListener: OnClickListener<ItemDefinition>
+    ) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(itemDefinition: ItemDefinition) {
             binding.itemDefinition = itemDefinition
+            binding.itemIconImage.setOnClickListener {
+                onClickListener.onClick(itemDefinition)
+            }
             binding.executePendingBindings()
         }
     }
@@ -30,7 +37,10 @@ class ItemGridAdapter :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        return ItemViewHolder(ItemDefinitionViewBinding.inflate(LayoutInflater.from(parent.context)))
+        return ItemViewHolder(
+            ItemDefinitionViewBinding.inflate(LayoutInflater.from(parent.context)),
+            onClickListener
+        )
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {

@@ -87,9 +87,10 @@ private fun DatabaseItemDefinition.asDomainModel(): ItemDefinition = ItemDefinit
     displayProperties = DisplayProperties(
         name = this.name,
         description = this.description,
-        iconUrl = this.iconUrl,
-        hasIcon = this.hasIcon
-    )
+        iconUrl = this.iconUrl
+    ),
+    type = this.type,
+    screenshotUrl = this.screenshotUrl
 )
 
 private fun List<ItemDefinition>.asDatabaseModel(soldByXur: Boolean): Array<DatabaseItemDefinition> =
@@ -101,6 +102,7 @@ private fun ItemDefinition.asDatabaseModel(soldByXur: Boolean): DatabaseItemDefi
         name = this.displayProperties.name,
         description = this.displayProperties.description,
         iconUrl = this.displayProperties.iconUrl,
-        hasIcon = this.displayProperties.hasIcon,
-        soldByXur = soldByXur
+        soldByXur = soldByXur,
+        type = this.type,
+        screenshotUrl = this.screenshotUrl
     )
