@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/item_icon_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginStart="@dimen/default_spacing"
             android:layout_marginTop="@dimen/default_spacing"
             android:layout_marginEnd="@dimen/default_spacing"
@@ -37,6 +37,7 @@
             android:layout_marginEnd="@dimen/default_spacing"
             android:text="@{itemDefinition.displayProperties.name}"
             android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"

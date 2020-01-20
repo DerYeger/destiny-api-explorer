@@ -2,25 +2,48 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation"
-    app:startDestination="@id/xurFragment">
+    app:startDestination="@id/itemOverviewFragment">
 
     <fragment
         android:id="@+id/xurFragment"
         android:name="eu.yeger.destiny_api_explorer.ui.xur.XurFragment"
-        android:label="XurFragment">
+        android:label="Xur">
         <action
             android:id="@+id/action_xurFragment_to_itemDetailFragment"
-            app:destination="@id/itemDetailFragment" />
+            app:destination="@id/itemDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/itemDetailFragment"
         android:name="eu.yeger.destiny_api_explorer.ui.item_detail.ItemDetailFragment"
-        android:label="ItemDetailFragment">
+        android:label="Item Details">
         <action
             android:id="@+id/action_itemDetailFragment_to_xurFragment"
-            app:destination="@id/xurFragment" />
+            app:destination="@id/xurFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <argument
             android:name="itemDefinition"
             app:argType="eu.yeger.destiny_api_explorer.domain.ItemDefinition" />
+        <action
+            android:id="@+id/action_itemDetailFragment_to_itemOverviewFragment2"
+            app:destination="@id/itemOverviewFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemOverviewFragment"
+        android:name="eu.yeger.destiny_api_explorer.ui.item_overview.ItemOverviewFragment"
+        android:label="Item Overview">
+        <action
+            android:id="@+id/action_itemOverviewFragment2_to_itemDetailFragment"
+            app:destination="@id/itemDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 </navigation>

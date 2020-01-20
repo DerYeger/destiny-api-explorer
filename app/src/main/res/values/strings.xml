@@ -6,4 +6,6 @@
     <string name="clear_data">Clear Data</string>
     <string name="icon_description">Icon of %s</string>
     <string name="screenshot_description">Screenshot of %s</string>
+    <string name="item_overview">Item Overview</string>
+    <string name="xur">Xur</string>
 </resources>

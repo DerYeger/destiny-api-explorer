@@ -60,6 +60,9 @@ dependencies {
     // Timber
     implementation "com.jakewharton.timber:timber:$timber_version"
 
+    // Material
+    implementation "com.google.android.material:material:$material_version"
+
     // Testing
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
