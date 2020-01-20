@@ -1,4 +1,4 @@
-package eu.yeger.destiny_api_explorer.ui.main
+package eu.yeger.destiny_api_explorer.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

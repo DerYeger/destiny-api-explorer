@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import eu.yeger.destiny_api_explorer.domain.ItemDefinition
 import eu.yeger.destiny_api_explorer.network.BUNGIE_BASE_URL
-import eu.yeger.destiny_api_explorer.ui.main.ItemGridAdapter
+import eu.yeger.destiny_api_explorer.ui.ItemGridAdapter
 
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imageUrl: String?) {
