@@ -36,18 +36,22 @@ class ItemDefinitionRepository(private val database: ItemDefinitionDatabase) {
 
     suspend fun refreshXurItems() {
         withContext(Dispatchers.IO) {
-            val xur = NetworkService.bungieApi.getXur()
+            try {
+                val xur = NetworkService.bungieApi.getXur()
 
-            val saleItems = xur.response.sales.data.values
-                .flatMap { vendor -> vendor.saleItems.values }
-                .map { it.asDatabaseModel() }
+                val saleItems = xur.response.sales.data.values
+                    .flatMap { vendor -> vendor.saleItems.values }
+                    .map { it.asDatabaseModel() }
 
-            database.saleItems.apply {
-                deleteAll()
-                insert(*saleItems.toTypedArray())
+                database.saleItems.apply {
+                    deleteAll()
+                    insert(*saleItems.toTypedArray())
+                }
+
+                saleItems.forEach { getItem(it.itemHash) }
+            } catch (exception: Exception) {
+                Timber.e(exception)
             }
-
-            saleItems.forEach { getItem(it.itemHash) }
         }
     }
 
