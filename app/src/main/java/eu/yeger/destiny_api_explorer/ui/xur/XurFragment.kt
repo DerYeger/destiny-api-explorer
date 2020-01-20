@@ -10,10 +10,6 @@ import eu.yeger.destiny_api_explorer.ui.ItemGridAdapter
 
 class XurFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = XurFragment()
-    }
-
     private lateinit var viewModel: XurViewModel
 
     private lateinit var binding: XurFragmentBinding
