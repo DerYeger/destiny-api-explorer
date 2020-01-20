@@ -4,4 +4,6 @@
     <string name="query_hint">Query</string>
     <string name="refresh_data">Refresh</string>
     <string name="clear_data">Clear Data</string>
+    <string name="icon_description">Icon of %s</string>
+    <string name="screenshot_description">Screenshot of %s</string>
 </resources>
