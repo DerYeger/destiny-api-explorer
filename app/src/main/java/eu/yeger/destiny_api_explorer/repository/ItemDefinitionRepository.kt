@@ -13,15 +13,18 @@ import timber.log.Timber
 
 class ItemDefinitionRepository(private val database: ItemDefinitionDatabase) {
 
-    val items: LiveData<List<ItemDefinition>> =
-        Transformations.map(database.itemDefinitionDao.getItemDefinitions()) {
+    val items: LiveData<List<ItemDefinition>> by lazy {
+        Transformations.map(database.itemDefinitionDao.getItemDefinitions())
+        {
             it.asDomainModel()
         }
+    }
 
-    val xurItems: LiveData<List<ItemDefinition>> =
+    val xurItems: LiveData<List<ItemDefinition>> by lazy {
         Transformations.map(database.itemDefinitionDao.getItemDefinitions()) {
             it.filter { item -> item.soldByXur }.asDomainModel()
         }
+    }
 
     suspend fun clear() {
         withContext(Dispatchers.IO) {
