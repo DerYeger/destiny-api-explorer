@@ -23,3 +23,17 @@ data class DisplayProperties(
     @Json(name = "icon")
     val iconUrl: String
 ) : Parcelable
+
+@JsonClass(generateAdapter = true)
+data class SaleItem(
+    val itemHash: Long,
+    val vendorItemIndex: Long,
+    val quantity: Long,
+    val costs: List<Cost>
+)
+
+@JsonClass(generateAdapter = true)
+data class Cost(
+    val itemHash: Long,
+    val quantity: Long
+)

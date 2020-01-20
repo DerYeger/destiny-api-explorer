@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/xurFragment"
         android:name="eu.yeger.destiny_api_explorer.ui.xur.XurFragment"
-        android:label="XurFragment" >
+        android:label="XurFragment">
         <action
             android:id="@+id/action_xurFragment_to_itemDetailFragment"
             app:destination="@id/itemDetailFragment" />
@@ -15,7 +15,7 @@
     <fragment
         android:id="@+id/itemDetailFragment"
         android:name="eu.yeger.destiny_api_explorer.ui.item_detail.ItemDetailFragment"
-        android:label="ItemDetailFragment" >
+        android:label="ItemDetailFragment">
         <action
             android:id="@+id/action_itemDetailFragment_to_xurFragment"
             app:destination="@id/xurFragment" />

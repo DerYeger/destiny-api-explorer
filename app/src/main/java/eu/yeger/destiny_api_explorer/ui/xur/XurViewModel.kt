@@ -3,9 +3,7 @@ package eu.yeger.destiny_api_explorer.ui.xur
 import android.app.Application
 import androidx.lifecycle.*
 import eu.yeger.destiny_api_explorer.database.getDatabase
-import eu.yeger.destiny_api_explorer.domain.ItemDefinition
 import eu.yeger.destiny_api_explorer.repository.ItemDefinitionRepository
-import eu.yeger.destiny_api_explorer.ui.OnClickListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

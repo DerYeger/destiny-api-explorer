@@ -3,9 +3,11 @@ package eu.yeger.destiny_api_explorer.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import eu.yeger.destiny_api_explorer.database.DatabaseItemDefinition
+import eu.yeger.destiny_api_explorer.database.DatabaseSaleItem
 import eu.yeger.destiny_api_explorer.database.ItemDefinitionDatabase
 import eu.yeger.destiny_api_explorer.domain.DisplayProperties
 import eu.yeger.destiny_api_explorer.domain.ItemDefinition
+import eu.yeger.destiny_api_explorer.domain.SaleItem
 import eu.yeger.destiny_api_explorer.network.NetworkService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -14,62 +16,50 @@ import timber.log.Timber
 class ItemDefinitionRepository(private val database: ItemDefinitionDatabase) {
 
     val items: LiveData<List<ItemDefinition>> by lazy {
-        Transformations.map(database.itemDefinitionDao.getItemDefinitions())
+        Transformations.map(database.itemDefinitions.getAll())
         {
             it.asDomainModel()
         }
     }
 
     val xurItems: LiveData<List<ItemDefinition>> by lazy {
-        Transformations.map(database.itemDefinitionDao.getItemDefinitions()) {
-            it.filter { item -> item.soldByXur }.asDomainModel()
+        Transformations.map(database.saleItems.getItemDefinitions()) {
+            it.asDomainModel()
         }
     }
 
     suspend fun clear() {
         withContext(Dispatchers.IO) {
-            database.itemDefinitionDao.deleteItemDefinitions()
+            database.itemDefinitions.deleteAll()
         }
     }
 
     suspend fun refreshXurItems() {
         withContext(Dispatchers.IO) {
-            // Get current Xur data
             val xur = NetworkService.bungieApi.getXur()
 
-            // Map Xur data to sale items
-            val saleItems =
-                xur.response.sales.data.values.flatMap { vendor -> vendor.saleItems.values }
+            val saleItems = xur.response.sales.data.values
+                .flatMap { vendor -> vendor.saleItems.values }
+                .map { it.asDatabaseModel() }
 
-            // Map sale items to ItemDefinitions by retrieving or fetching them
-            val xurItemDefinitions = saleItems.mapNotNull { saleItem ->
-                getItem(
-                    hash = saleItem.itemHash,
-                    soldByXur = true
-                )
+            database.saleItems.apply {
+                deleteAll()
+                insert(*saleItems.toTypedArray())
             }
 
-            // Mark items no longer sold by Xur as such
-            val previousItems = xurItems.value!!
-                .filter { it !in xurItemDefinitions }
-                .asDatabaseModel(soldByXur = false)
-            database.itemDefinitionDao.updateAll(*previousItems)
-
-            // Mark items in the inventory of Xur as such
-            database.itemDefinitionDao.updateAll(*xurItemDefinitions.asDatabaseModel(soldByXur = true))
+            saleItems.forEach { getItem(it.itemHash) }
         }
     }
 
-    private suspend fun getItem(hash: Long, soldByXur: Boolean = false): ItemDefinition? {
+    suspend fun getItem(hash: Long): ItemDefinition? {
         try {
-            // Check if the item definition exists in the local database
-            return when (val itemDefinition = database.itemDefinitionDao.getItemDefinition(hash)) {
-                // Fetch and save the item definition if it is not present
-                null -> NetworkService.bungieApi.getItemDefinition(hash).itemDefinition.also {
-                    database.itemDefinitionDao.insertAll(it.asDatabaseModel(soldByXur = soldByXur))
+            return withContext(Dispatchers.IO) {
+                when (val itemDefinition = database.itemDefinitions.get(hash)) {
+                    null -> NetworkService.bungieApi.getItemDefinition(hash).itemDefinition.also {
+                        database.itemDefinitions.insert(it.asDatabaseModel())
+                    }
+                    else -> itemDefinition.asDomainModel()
                 }
-                // Retrieve the item definition if it is present
-                else -> itemDefinition.asDomainModel()
             }
         } catch (exception: Exception) {
             Timber.e(exception)
@@ -80,7 +70,6 @@ class ItemDefinitionRepository(private val database: ItemDefinitionDatabase) {
 
 private fun List<DatabaseItemDefinition>.asDomainModel(): List<ItemDefinition> =
     map { it.asDomainModel() }
-
 
 private fun DatabaseItemDefinition.asDomainModel(): ItemDefinition = ItemDefinition(
     hash = this.hash,
@@ -93,16 +82,18 @@ private fun DatabaseItemDefinition.asDomainModel(): ItemDefinition = ItemDefinit
     screenshotUrl = this.screenshotUrl
 )
 
-private fun List<ItemDefinition>.asDatabaseModel(soldByXur: Boolean): Array<DatabaseItemDefinition> =
-    map { it.asDatabaseModel(soldByXur = soldByXur) }.toTypedArray()
-
-private fun ItemDefinition.asDatabaseModel(soldByXur: Boolean): DatabaseItemDefinition =
+private fun ItemDefinition.asDatabaseModel(): DatabaseItemDefinition =
     DatabaseItemDefinition(
         hash = this.hash,
         name = this.displayProperties.name,
         description = this.displayProperties.description,
         iconUrl = this.displayProperties.iconUrl,
-        soldByXur = soldByXur,
         type = this.type,
         screenshotUrl = this.screenshotUrl
     )
+
+private fun SaleItem.asDatabaseModel(): DatabaseSaleItem = DatabaseSaleItem(
+    itemHash = this.itemHash,
+    vendorItemIndex = this.vendorItemIndex,
+    quantity = this.quantity
+)

@@ -3,6 +3,7 @@ package eu.yeger.destiny_api_explorer.network
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import eu.yeger.destiny_api_explorer.domain.ItemDefinition
+import eu.yeger.destiny_api_explorer.domain.SaleItem
 
 typealias SaleItems = Map<String, SaleItem>
 typealias Vendors = Map<String, NetworkVendors.Response.Sales.Vendor>
@@ -26,20 +27,6 @@ data class NetworkVendors(
             )
         }
     }
-}
-
-@JsonClass(generateAdapter = true)
-data class SaleItem(
-    val vendorItemIndex: Long,
-    val itemHash: Long,
-    val quantity: Long,
-    val costs: List<Cost>
-) {
-    @JsonClass(generateAdapter = true)
-    data class Cost(
-        val itemHash: Long,
-        val quantity: Long
-    )
 }
 
 @JsonClass(generateAdapter = true)
