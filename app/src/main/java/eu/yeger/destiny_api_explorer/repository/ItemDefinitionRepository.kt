@@ -34,6 +34,18 @@ class ItemDefinitionRepository(private val database: ItemDefinitionDatabase) {
         }
     }
 
+    suspend fun fetchSomeItems() {
+        listOf(
+            3074058273,
+            3354242550,
+            3549153978,
+            3993415705,
+            193869520
+        ).forEach {
+            getItem(it)
+        }
+    }
+
     suspend fun refreshXurItems() {
         withContext(Dispatchers.IO) {
             try {
@@ -69,6 +81,12 @@ class ItemDefinitionRepository(private val database: ItemDefinitionDatabase) {
             Timber.e(exception)
         }
         return null
+    }
+
+    suspend fun clearXur() {
+        withContext(Dispatchers.IO) {
+            database.saleItems.deleteAll()
+        }
     }
 }
 

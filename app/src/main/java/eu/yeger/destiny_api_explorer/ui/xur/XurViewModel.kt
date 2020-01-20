@@ -40,7 +40,7 @@ class XurViewModel(application: Application) : AndroidViewModel(application) {
 
     fun clear() {
         viewModelScope.launch {
-            repository.clear()
+            repository.clearXur()
         }
     }
 

@@ -32,7 +32,7 @@ class ItemOverviewViewModel(application: Application) : AndroidViewModel(applica
 
     fun refresh() {
         viewModelScope.launch {
-            // TODO
+            repository.fetchSomeItems()
         }
     }
 
