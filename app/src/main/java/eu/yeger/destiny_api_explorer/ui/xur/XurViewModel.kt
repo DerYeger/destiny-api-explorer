@@ -2,7 +2,6 @@ package eu.yeger.destiny_api_explorer.ui.xur
 
 import android.app.Application
 import androidx.lifecycle.*
-import eu.yeger.destiny_api_explorer.database.getDatabase
 import eu.yeger.destiny_api_explorer.repository.ItemDefinitionRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,8 +13,7 @@ class XurViewModel(application: Application) : AndroidViewModel(application) {
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    private val database = getDatabase(application)
-    private val repository = ItemDefinitionRepository(database)
+    private val repository = ItemDefinitionRepository(application)
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String>

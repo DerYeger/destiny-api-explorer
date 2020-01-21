@@ -1,10 +1,12 @@
 package eu.yeger.destiny_api_explorer.repository
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import eu.yeger.destiny_api_explorer.database.DatabaseItemDefinition
 import eu.yeger.destiny_api_explorer.database.DatabaseSaleItem
 import eu.yeger.destiny_api_explorer.database.ItemDefinitionDatabase
+import eu.yeger.destiny_api_explorer.database.getDatabase
 import eu.yeger.destiny_api_explorer.domain.DisplayProperties
 import eu.yeger.destiny_api_explorer.domain.ItemDefinition
 import eu.yeger.destiny_api_explorer.domain.SaleItem
@@ -14,6 +16,8 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class ItemDefinitionRepository(private val database: ItemDefinitionDatabase) {
+
+    constructor(context: Context): this(getDatabase(context))
 
     val items: LiveData<List<ItemDefinition>> by lazy {
         Transformations.map(database.itemDefinitions.getAll())

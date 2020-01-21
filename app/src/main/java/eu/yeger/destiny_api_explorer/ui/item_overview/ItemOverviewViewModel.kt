@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import eu.yeger.destiny_api_explorer.database.getDatabase
 import eu.yeger.destiny_api_explorer.repository.ItemDefinitionRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,8 +15,7 @@ class ItemOverviewViewModel(application: Application) : AndroidViewModel(applica
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    private val database = getDatabase(application)
-    private val repository = ItemDefinitionRepository(database)
+    private val repository = ItemDefinitionRepository(application)
 
     val itemDefinitions = repository.items
 
