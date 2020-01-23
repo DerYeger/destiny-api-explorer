@@ -17,6 +17,10 @@ class ItemOverviewViewModel(application: Application) : AndroidViewModel(applica
 
     val itemDefinitions = repository.items
 
+    val isEmpty = Transformations.map(itemDefinitions) {
+        it.isEmpty()
+    }
+
     private val _refreshing = MutableLiveData<Boolean>()
     val refreshing: LiveData<Boolean>
         get() = _refreshing

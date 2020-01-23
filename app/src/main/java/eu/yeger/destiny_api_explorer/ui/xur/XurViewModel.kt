@@ -17,6 +17,10 @@ class XurViewModel(application: Application) : AndroidViewModel(application) {
 
     val itemDefinitions = repository.xurItems
 
+    val isEmpty = Transformations.map(itemDefinitions) {
+        it.isEmpty()
+    }
+
     private val _refreshing = MutableLiveData<Boolean>()
     val refreshing: LiveData<Boolean>
         get() = _refreshing
