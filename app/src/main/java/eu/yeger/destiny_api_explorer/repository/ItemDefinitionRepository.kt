@@ -91,6 +91,12 @@ class ItemDefinitionRepository(private val database: ItemDefinitionDatabase) {
             database.saleItems.deleteAll()
         }
     }
+
+    suspend fun removeItem(itemDefinition: ItemDefinition) {
+        withContext(Dispatchers.IO) {
+            database.itemDefinitions.delete(itemDefinition.asDatabaseModel())
+        }
+    }
 }
 
 private fun List<DatabaseItemDefinition>.asDomainModel(): List<ItemDefinition> =

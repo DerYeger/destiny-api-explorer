@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
-        android:id="@+id/refresh_data_menu"
-        android:title="@string/refresh_data" />
-    <item
-        android:id="@+id/clear_data_menu"
-        android:title="@string/clear_data" />
+        android:id="@+id/remove_menu"
+        android:title="@string/remove" />
 </menu>

@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="itemDefinition"
-            type="eu.yeger.destiny_api_explorer.domain.ItemDefinition" />
+            name="viewModel"
+            type="eu.yeger.destiny_api_explorer.ui.item_detail.ItemDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,8 +20,8 @@
             android:layout_height="100dp"
             android:layout_marginStart="@dimen/default_spacing"
             android:layout_marginTop="@dimen/default_spacing"
-            android:contentDescription="@{@string/icon_description(itemDefinition.displayProperties.name)}"
-            app:bungieImageUrl="@{itemDefinition.displayProperties.iconUrl}"
+            android:contentDescription="@{@string/icon_description(viewModel.itemDefinition.displayProperties.name)}"
+            app:bungieImageUrl="@{viewModel.itemDefinition.displayProperties.iconUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
@@ -34,7 +34,7 @@
             android:layout_marginStart="@dimen/default_spacing"
             android:layout_marginTop="@dimen/default_spacing"
             android:layout_marginEnd="@dimen/default_spacing"
-            android:text="@{itemDefinition.displayProperties.name}"
+            android:text="@{viewModel.itemDefinition.displayProperties.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/item_icon_image"
             app:layout_constraintTop_toTopOf="@+id/item_icon_image"
@@ -48,7 +48,7 @@
             android:layout_marginStart="@dimen/default_spacing"
             android:layout_marginEnd="@dimen/default_spacing"
             android:layout_marginBottom="@dimen/default_spacing"
-            android:text="@{itemDefinition.type}"
+            android:text="@{viewModel.itemDefinition.type}"
             app:layout_constraintBottom_toBottomOf="@+id/item_icon_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -62,7 +62,7 @@
             android:layout_marginStart="@dimen/default_spacing"
             android:layout_marginTop="@dimen/default_spacing"
             android:layout_marginEnd="@dimen/default_spacing"
-            android:text="@{itemDefinition.displayProperties.description}"
+            android:text="@{viewModel.itemDefinition.displayProperties.description}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_icon_image"
@@ -74,9 +74,9 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/default_spacing"
             android:layout_marginBottom="@dimen/default_spacing"
-            android:contentDescription="@{@string/screenshot_description(itemDefinition.displayProperties.name)}"
+            android:contentDescription="@{@string/screenshot_description(viewModel.itemDefinition.displayProperties.name)}"
             android:scaleType="fitStart"
-            app:bungieImageUrl="@{itemDefinition.screenshotUrl}"
+            app:bungieImageUrl="@{viewModel.itemDefinition.screenshotUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

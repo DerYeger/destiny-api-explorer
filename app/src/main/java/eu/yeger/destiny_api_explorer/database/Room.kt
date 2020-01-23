@@ -21,6 +21,9 @@ interface ItemDefinitionDao {
 
     @Query("DELETE FROM databaseitemdefinition")
     fun deleteAll()
+
+    @Delete
+    fun delete(itemDefinition: DatabaseItemDefinition)
 }
 
 @Dao
