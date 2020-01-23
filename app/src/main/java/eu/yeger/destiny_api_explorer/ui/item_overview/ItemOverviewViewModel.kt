@@ -38,17 +38,6 @@ class ItemOverviewViewModel(application: Application) : ViewModel() {
         }
     }
 
-    init {
-        refresh()
-    }
-
-
-    fun clear() {
-        viewModelScope.launch {
-            repository.clear()
-        }
-    }
-
     class Factory(private val application: Application) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {

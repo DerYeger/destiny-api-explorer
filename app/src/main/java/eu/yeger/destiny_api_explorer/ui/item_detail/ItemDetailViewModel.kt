@@ -26,7 +26,7 @@ class ItemDetailViewModel(
     val navigateBack: LiveData<Boolean>
         get() = _navigateBack
 
-    fun removeItemDefintion() {
+    fun removeItemDefinition() {
         viewModelScope.launch {
             repository.removeItem(itemDefinition)
             _navigateBack.value = true

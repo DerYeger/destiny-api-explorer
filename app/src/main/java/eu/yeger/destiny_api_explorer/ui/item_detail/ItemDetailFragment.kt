@@ -47,7 +47,7 @@ class ItemDetailFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.remove_menu -> viewModel.removeItemDefintion().truely()
+            R.id.remove_menu -> viewModel.removeItemDefinition().truely()
             else -> false
         }
     }

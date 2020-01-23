@@ -42,12 +42,6 @@ class XurViewModel(application: Application) : ViewModel() {
         viewModelJob.cancel()
     }
 
-    fun clear() {
-        viewModelScope.launch {
-            repository.clearXur()
-        }
-    }
-
     class Factory(private val application: Application) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
