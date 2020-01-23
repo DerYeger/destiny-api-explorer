@@ -11,23 +11,29 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.item_overview.ItemOverviewFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/item_grid"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_container"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:clipToPadding="false"
-            app:itemList="@{viewModel.itemDefinitions}"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:spanCount="4" />
+            app:onRefresh="@{viewModel.refresh}"
+            app:refreshing="@{viewModel.refreshing}">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/item_grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                app:itemList="@{viewModel.itemDefinitions}"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="4" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

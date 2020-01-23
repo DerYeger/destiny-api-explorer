@@ -41,6 +41,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "android.arch.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$navigation_version"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefresh_layout_version"
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"

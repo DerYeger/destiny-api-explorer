@@ -1,9 +1,7 @@
 package eu.yeger.destiny_api_explorer.ui.item_overview
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import eu.yeger.destiny_api_explorer.repository.ItemDefinitionRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,20 +17,27 @@ class ItemOverviewViewModel(application: Application) : AndroidViewModel(applica
 
     val itemDefinitions = repository.items
 
-    init {
-        refresh()
-    }
+    private val _refreshing = MutableLiveData<Boolean>()
+    val refreshing: LiveData<Boolean>
+        get() = _refreshing
 
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
     }
 
-    fun refresh() {
+    val refresh: () -> Unit = {
         viewModelScope.launch {
+            _refreshing.value = true
             repository.fetchSomeItems()
+            _refreshing.value = false
         }
     }
+
+    init {
+        refresh()
+    }
+
 
     fun clear() {
         viewModelScope.launch {

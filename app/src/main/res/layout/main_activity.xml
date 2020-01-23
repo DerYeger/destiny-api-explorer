@@ -22,8 +22,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            app:itemTextAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:fitsSystemWindows="true"
+            app:itemTextAppearance="@style/TextAppearance.MaterialComponents.Body1"
             app:menu="@menu/nav_drawer" />
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

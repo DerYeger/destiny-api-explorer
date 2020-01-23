@@ -4,6 +4,7 @@ import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import eu.yeger.destiny_api_explorer.domain.ItemDefinition
 import eu.yeger.destiny_api_explorer.network.BUNGIE_BASE_URL
@@ -27,5 +28,10 @@ fun bindBungieImage(imageView: ImageView, imageUrl: String?) =
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<ItemDefinition>?) {
     val adapter = recyclerView.adapter as ItemGridAdapter
     adapter.submitList(data)
+}
+
+@BindingAdapter("onRefresh")
+fun bindSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout, block: () -> Nothing) {
+    swipeRefreshLayout.setOnRefreshListener(block)
 }
 

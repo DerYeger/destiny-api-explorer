@@ -17,7 +17,7 @@ import timber.log.Timber
 
 class ItemDefinitionRepository(private val database: ItemDefinitionDatabase) {
 
-    constructor(context: Context): this(getDatabase(context))
+    constructor(context: Context) : this(getDatabase(context))
 
     val items: LiveData<List<ItemDefinition>> by lazy {
         Transformations.map(database.itemDefinitions.getAll())
@@ -40,7 +40,6 @@ class ItemDefinitionRepository(private val database: ItemDefinitionDatabase) {
 
     suspend fun fetchSomeItems() {
         listOf(
-            3074058273,
             3354242550,
             3549153978,
             3993415705,

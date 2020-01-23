@@ -3,10 +3,8 @@ package eu.yeger.destiny_api_explorer.ui.xur
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import eu.yeger.destiny_api_explorer.R
 import eu.yeger.destiny_api_explorer.databinding.XurFragmentBinding
 import eu.yeger.destiny_api_explorer.truely
@@ -41,7 +39,7 @@ class XurFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val factory = XurViewModel.Factory(application = activity!!.application)
-        viewModel = ViewModelProviders.of(this, factory).get(XurViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory).get(XurViewModel::class.java)
         binding.viewModel = viewModel
     }
 

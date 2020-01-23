@@ -15,11 +15,19 @@ class XurViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = ItemDefinitionRepository(application)
 
-    private val _error = MutableLiveData<String>()
-    val error: LiveData<String>
-        get() = _error
-
     val itemDefinitions = repository.xurItems
+
+    private val _refreshing = MutableLiveData<Boolean>()
+    val refreshing: LiveData<Boolean>
+        get() = _refreshing
+
+    val refresh: () -> Unit = {
+        viewModelScope.launch {
+            _refreshing.value = true
+            repository.refreshXurItems()
+            _refreshing.value = false
+        }
+    }
 
     init {
         refresh()
@@ -28,12 +36,6 @@ class XurViewModel(application: Application) : AndroidViewModel(application) {
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
-    }
-
-    fun refresh() {
-        viewModelScope.launch {
-            repository.refreshXurItems()
-        }
     }
 
     fun clear() {
