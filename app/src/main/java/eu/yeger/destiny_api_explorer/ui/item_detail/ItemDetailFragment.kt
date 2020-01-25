@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import eu.yeger.destiny_api_explorer.R
 import eu.yeger.destiny_api_explorer.databinding.ItemDetailFragmentBinding
-import eu.yeger.destiny_api_explorer.truely
+import eu.yeger.destiny_api_explorer.truly
 
 class ItemDetailFragment : Fragment() {
 
@@ -47,7 +47,7 @@ class ItemDetailFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.remove_menu -> viewModel.removeItemDefinition().truely()
+            R.id.remove_menu -> viewModel.removeItemDefinition().truly()
             else -> false
         }
     }

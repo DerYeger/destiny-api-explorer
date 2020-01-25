@@ -31,7 +31,9 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<ItemDefinition>?) {
 }
 
 @BindingAdapter("onRefresh")
-fun bindSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout, block: () -> Nothing) {
-    swipeRefreshLayout.setOnRefreshListener(block)
+fun bindSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout, listener: Runnable) {
+    swipeRefreshLayout.setOnRefreshListener {
+        listener.run()
+    }
 }
 

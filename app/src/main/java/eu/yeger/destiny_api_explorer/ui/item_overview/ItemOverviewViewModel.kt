@@ -30,7 +30,7 @@ class ItemOverviewViewModel(application: Application) : ViewModel() {
         viewModelJob.cancel()
     }
 
-    val refresh: () -> Unit = {
+    fun refresh() {
         viewModelScope.launch {
             _refreshing.value = true
             repository.fetchSomeItems()

@@ -25,14 +25,6 @@ class XurViewModel(application: Application) : ViewModel() {
     val refreshing: LiveData<Boolean>
         get() = _refreshing
 
-    val refresh: () -> Unit = {
-        viewModelScope.launch {
-            _refreshing.value = true
-            repository.refreshXurItems()
-            _refreshing.value = false
-        }
-    }
-
     init {
         refresh()
     }
@@ -40,6 +32,14 @@ class XurViewModel(application: Application) : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    fun refresh() {
+        viewModelScope.launch {
+            _refreshing.value = true
+            repository.refreshXurItems()
+            _refreshing.value = false
+        }
     }
 
     class Factory(private val application: Application) : ViewModelProvider.Factory {

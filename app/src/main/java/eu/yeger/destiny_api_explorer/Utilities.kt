@@ -1,3 +1,3 @@
 package eu.yeger.destiny_api_explorer
 
-fun Any.truely() = true
+fun Any.truly() = true
