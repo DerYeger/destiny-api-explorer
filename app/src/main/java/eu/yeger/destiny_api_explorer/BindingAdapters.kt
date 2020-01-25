@@ -21,8 +21,9 @@ fun ImageView.bindImage(imageUrl: String?) {
 }
 
 @BindingAdapter("bungieImageUrl")
-fun ImageView.bindBungieImage(imageUrl: String?) =
+fun ImageView.bindBungieImage(imageUrl: String?) = imageUrl?.let {
     bindImage(BUNGIE_BASE_URL + imageUrl)
+}
 
 @BindingAdapter("itemList")
 fun RecyclerView.bindRecyclerView(data: List<ItemDefinition>?) {

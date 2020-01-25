@@ -21,8 +21,13 @@ class ItemOverviewFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = ItemOverviewFragmentBinding.inflate(inflater).apply {
+    ): View {
+        binding = ItemOverviewFragmentBinding.inflate(inflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.apply {
             lifecycleOwner = this@ItemOverviewFragment
             itemGrid.adapter = ItemGridAdapter(OnClickListener {
                 findNavController().navigate(
@@ -32,9 +37,6 @@ class ItemOverviewFragment : Fragment() {
                 )
             })
         }
-        binding.lifecycleOwner = this
-        setHasOptionsMenu(true)
-        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -22,7 +22,12 @@ class XurFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = XurFragmentBinding.inflate(inflater).apply {
+        binding = XurFragmentBinding.inflate(inflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.apply {
             lifecycleOwner = this@XurFragment
             itemGrid.adapter = ItemGridAdapter(OnClickListener {
                 findNavController().navigate(
@@ -32,7 +37,6 @@ class XurFragment : Fragment() {
                 )
             })
         }
-        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

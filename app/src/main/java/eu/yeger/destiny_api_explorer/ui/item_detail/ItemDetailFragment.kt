@@ -19,19 +19,20 @@ class ItemDetailFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = ItemDetailFragmentBinding.inflate(inflater)
-        setHasOptionsMenu(true)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        binding.lifecycleOwner = this
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val itemDefinition = ItemDetailFragmentArgs.fromBundle(arguments!!).itemDefinition
-        val factory = ItemDetailViewModel.Factory(
-            itemDefinition = itemDefinition,
-            application = activity!!.application
-        )
+        val factory = ItemDetailViewModel.Factory(itemDefinition, activity!!.application)
         viewModel = ViewModelProvider(this, factory).get(ItemDetailViewModel::class.java)
         binding.viewModel = viewModel
         viewModel.navigateBack.observe(viewLifecycleOwner, Observer {

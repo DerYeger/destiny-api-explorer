@@ -7,11 +7,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.*
 import eu.yeger.destiny_api_explorer.databinding.MainActivityBinding
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,15 +19,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    private lateinit var navController: NavController
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding =
             DataBindingUtil.setContentView<MainActivityBinding>(this, R.layout.main_activity)
         val drawerLayout = binding.drawerLayout
 
-        navController = findNavController(R.id.nav_host_fragment)
+        val navController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration(TOP_LEVEL_DESTINATIONS, drawerLayout)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -44,6 +40,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
+        return findNavController(R.id.nav_host_fragment).navigateUp(appBarConfiguration)
     }
 }
