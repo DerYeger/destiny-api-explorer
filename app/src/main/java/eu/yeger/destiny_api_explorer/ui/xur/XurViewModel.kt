@@ -3,15 +3,9 @@ package eu.yeger.destiny_api_explorer.ui.xur
 import android.app.Application
 import androidx.lifecycle.*
 import eu.yeger.destiny_api_explorer.repository.ItemDefinitionRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class XurViewModel(application: Application) : ViewModel() {
-
-    private val viewModelJob = Job()
-    private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private val repository = ItemDefinitionRepository(application)
 
@@ -27,11 +21,6 @@ class XurViewModel(application: Application) : ViewModel() {
 
     init {
         refresh()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 
     fun refresh() {
