@@ -12,7 +12,8 @@
             android:id="@+id/action_xurFragment_to_itemDetailFragment"
             app:destination="@id/itemDetailFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@+id/xurFragment" />
     </fragment>
     <fragment
         android:id="@+id/itemDetailFragment"
@@ -41,9 +42,10 @@
         android:name="eu.yeger.destiny_api_explorer.ui.item_overview.ItemOverviewFragment"
         android:label="Item Overview">
         <action
-            android:id="@+id/action_itemOverviewFragment2_to_itemDetailFragment"
+            android:id="@+id/action_itemOverviewFragment_to_itemDetailFragment"
             app:destination="@id/itemDetailFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@+id/itemOverviewFragment" />
     </fragment>
 </navigation>

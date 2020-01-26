@@ -31,7 +31,7 @@ class ItemOverviewFragment : Fragment() {
             lifecycleOwner = this@ItemOverviewFragment
             itemGrid.adapter = ItemGridAdapter(OnClickListener {
                 findNavController().navigate(
-                    ItemOverviewFragmentDirections.actionItemOverviewFragment2ToItemDetailFragment(
+                    ItemOverviewFragmentDirections.actionItemOverviewFragmentToItemDetailFragment(
                         it
                     )
                 )
