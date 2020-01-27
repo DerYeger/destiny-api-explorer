@@ -5,6 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import eu.yeger.destiny_api_explorer.R
 import eu.yeger.destiny_api_explorer.databinding.ItemDetailFragmentBinding
 import eu.yeger.destiny_api_explorer.truly
@@ -36,8 +37,9 @@ class ItemDetailFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory).get(ItemDetailViewModel::class.java)
         binding.viewModel = viewModel
         viewModel.navigateBack.observe(viewLifecycleOwner, Observer {
-            activity!!.supportFragmentManager.popBackStackImmediate()
-            viewModel.navigatedBack()
+            if (findNavController().navigateUp()) {
+                viewModel.navigatedBack()
+            }
         })
     }
 
